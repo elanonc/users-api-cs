@@ -25,7 +25,7 @@ namespace users.Repository
 
     public void DeleteUser(User user)
     {
-      throw new NotImplementedException();
+      _context.Remove(user);
     }
 
     public async Task<User> GetUser(int id)
@@ -35,7 +35,7 @@ namespace users.Repository
 
     public void UpdateUser(User user)
     {
-      throw new NotImplementedException();
+      _context.Update(user);
     }
 
     public async Task<bool> SaveChangesAsync()

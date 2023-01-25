@@ -42,5 +42,26 @@ namespace users.Controllers
         : BadRequest("Erro ao salvar o usuário.");
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(int id, User user)
+    {
+      var usuarioUpdate = await _repository.GetUser(id);
+      if (usuarioUpdate == null) {
+        return NotFound("Usuário não encontrado");
+      }
+
+      usuarioUpdate.Name = user.Name ?? usuarioUpdate.Name;
+      usuarioUpdate.BirthDate = user.BirthDate != new DateTime() 
+      ? user.BirthDate : usuarioUpdate.BirthDate;
+
+      _repository.UpdateUser(usuarioUpdate);
+
+      return await _repository.SaveChangesAsync()
+        ? Ok("Usuário atualizado com sucesso")
+        : BadRequest("Erro ao salvar o usuário.");     
+    }
+
+    
+
   }
 }
