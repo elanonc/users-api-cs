@@ -46,7 +46,8 @@ namespace users.Controllers
     public async Task<IActionResult> Put(int id, User user)
     {
       var usuarioUpdate = await _repository.GetUser(id);
-      if (usuarioUpdate == null) {
+      if (usuarioUpdate == null) 
+      {
         return NotFound("Usuário não encontrado");
       }
 
@@ -58,10 +59,24 @@ namespace users.Controllers
 
       return await _repository.SaveChangesAsync()
         ? Ok("Usuário atualizado com sucesso")
-        : BadRequest("Erro ao salvar o usuário.");     
+        : BadRequest("Erro ao atualizar o usuário.");     
     }
 
-    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+      var usuarioDelete = await _repository.GetUser(id);
+      if (usuarioDelete == null)
+      {
+        return NotFound("Usuário não encontrado");
+      }
+
+      _repository.DeleteUser(usuarioDelete);
+
+      return await _repository.SaveChangesAsync() 
+        ? Ok("Usuário deletado com sucesso")
+        : BadRequest("Erro ao deletar o usuário.");
+    }
 
   }
 }
