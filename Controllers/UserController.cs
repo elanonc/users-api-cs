@@ -30,7 +30,7 @@ namespace users.Controllers
       var usuario = await _repository.GetUser(id);
       return usuario != null 
         ? Ok(usuario) 
-        : NotFound("Usuário não encontrado");
+        : NotFound("Usuário não encontrado!");
     }
 
     [HttpPost]
@@ -38,7 +38,7 @@ namespace users.Controllers
     {
       _repository.AddUser(user);
       return await _repository.SaveChangesAsync() 
-        ? Ok("Usuário adicionado com sucesso") 
+        ? Ok("Usuário adicionado com sucesso!") 
         : BadRequest("Erro ao salvar o usuário.");
     }
 
@@ -48,7 +48,7 @@ namespace users.Controllers
       var usuarioUpdate = await _repository.GetUser(id);
       if (usuarioUpdate == null) 
       {
-        return NotFound("Usuário não encontrado");
+        return NotFound("Usuário não encontrado!");
       }
 
       usuarioUpdate.Name = user.Name ?? usuarioUpdate.Name;
@@ -58,7 +58,7 @@ namespace users.Controllers
       _repository.UpdateUser(usuarioUpdate);
 
       return await _repository.SaveChangesAsync()
-        ? Ok("Usuário atualizado com sucesso")
+        ? Ok("Usuário atualizado com sucesso!")
         : BadRequest("Erro ao atualizar o usuário.");     
     }
 
@@ -68,13 +68,13 @@ namespace users.Controllers
       var usuarioDelete = await _repository.GetUser(id);
       if (usuarioDelete == null)
       {
-        return NotFound("Usuário não encontrado");
+        return NotFound("Usuário não encontrado!");
       }
 
       _repository.DeleteUser(usuarioDelete);
 
       return await _repository.SaveChangesAsync() 
-        ? Ok("Usuário deletado com sucesso")
+        ? Ok("Usuário deletado com sucesso!")
         : BadRequest("Erro ao deletar o usuário.");
     }
 
