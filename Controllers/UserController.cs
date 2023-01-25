@@ -1,4 +1,5 @@
 using users.Models;
+using users.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace users.Controllers
@@ -7,26 +8,26 @@ namespace users.Controllers
   [Route("api/[controller]")]
   public class UserController : ControllerBase
   {
+    private readonly IUserRepository _repository;
 
-    private static List<User> Users()
+    public UserController(IUserRepository repository)
     {
-      return new List<User>{
-        new User{ Name = "Elano", Id = 1, BirthDate = new DateTime(2001, 09, 14) }
-      };
+      this._repository = repository;
     }
 
     [HttpGet]
     public IActionResult Get()
     {
-      return Ok(Users());
+      return Ok();
     }
 
     [HttpPost]
-    public IActionResult Post(User user)
+    public async Task<IActionResult> Post(User user)
     {
-      var usuarios = Users();
-      usuarios.Add(user);
-      return Ok(usuarios);
+      _repository.AddUser(user);
+      return await _repository.SaveChangesAsync() 
+        ? Ok("Usuário adicionado com sucesso") 
+        : BadRequest("Erro ao salvar o usuário.");
     }
 
   }
