@@ -16,9 +16,21 @@ namespace users.Controllers
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
-      return Ok();
+      var usuarios = await _repository.GetAllUsers();
+      return usuarios.Any() 
+        ? Ok(usuarios) 
+        : NoContent();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+      var usuario = await _repository.GetUser(id);
+      return usuario != null 
+        ? Ok(usuario) 
+        : NotFound("Usuário não encontrado");
     }
 
     [HttpPost]

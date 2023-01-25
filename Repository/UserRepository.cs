@@ -1,4 +1,5 @@
 using users.Models;
+using Microsoft.EntityFrameworkCore;
 using users.Data;
 
 namespace users.Repository
@@ -11,6 +12,12 @@ namespace users.Repository
     {
       _context = context;
     }
+
+    public async Task<IEnumerable<User>> GetAllUsers()
+    {
+      return await _context.Users.ToListAsync();
+    }
+
     public void AddUser(User user)
     {
       _context.Add(user);
@@ -21,14 +28,9 @@ namespace users.Repository
       throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<User>> GetAllUsers()
+    public async Task<User> GetUser(int id)
     {
-      throw new NotImplementedException();
-    }
-
-    public Task<User> GetUser(int id)
-    {
-      throw new NotImplementedException();
+      return await _context.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
     }
 
     public void UpdateUser(User user)
